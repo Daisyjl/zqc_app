@@ -136,7 +136,7 @@
 		<!--<aop:include name = "aspectjBean" />-->
 	<!--</aop:aspectj-autoproxy>-->
 
-	<import resource="classpath:redis-context.xml" />
+	<!--<import resource="classpath:application-redis.xml" />-->
 	<bean id="beanUtil" class="com.leoman.utils.BeanUtil"></bean>
 	<!--<bean id="cacheTempCodeServiceImpl" class="com.leoman.cache.CacheTempCodeServiceImpl" />-->
 	<bean id="logService" class="com.leoman.common.log.service.impl.LogServiceImpl" />

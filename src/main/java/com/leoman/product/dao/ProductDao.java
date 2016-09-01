@@ -1,6 +1,7 @@
 package com.leoman.product.dao;
 
 
+import com.jarvis.cache.annotation.Cache;
 import com.leoman.common.dao.IBaseJpaRepository;
 import com.leoman.product.entity.Product;
 import com.leoman.task.entity.Task;

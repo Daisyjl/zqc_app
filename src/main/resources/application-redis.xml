@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Jedis 连接池配置 -->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="2000" />
+        <property name="maxIdle" value="100" />
+        <property name="minIdle" value="50" />
+        <property name="maxWaitMillis" value="2000" />
+        <property name="testOnBorrow" value="false" />
+        <property name="testOnReturn" value="false" />
+        <property name="testWhileIdle" value="false" />
+    </bean>
+    <bean id="shardedJedisPool" class="redis.clients.jedis.ShardedJedisPool">
+        <constructor-arg ref="jedisPoolConfig" />
+        <constructor-arg>
+            <list>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg value="${redis.host}" />
+                    <constructor-arg type="int" value="${redis.port}" />
+                    <constructor-arg value="instance:01" />
+                </bean>
+                <!--<bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg value="${redis2.host}" />
+                    <constructor-arg type="int" value="${redis2.port}" />
+                    <constructor-arg value="instance:02" />
+                </bean>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg value="${redis3.host}" />
+                    <constructor-arg type="int" value="${redis3.port}" />
+                    <constructor-arg value="instance:03" />
+                </bean>-->
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="autoLoadConfig" class="com.jarvis.cache.to.AutoLoadConfig">
+        <property name="threadCnt" value="10" />
+        <property name="maxElement" value="20000" />
+        <property name="printSlowLog" value="true" />
+        <property name="slowLoadTime" value="500" />
+        <!--<property name="sortType" value="1" />-->
+        <property name="checkFromCacheBeforeLoad" value="true" />
+    </bean>
+
+    <bean id="hessianSerializer" class="com.jarvis.cache.serializer.HessianSerializer" />
+
+    <bean id="cachePointCut" class="com.jarvis.cache.redis.ShardedCachePointCut" destroy-method="destroy">
+        <constructor-arg ref="autoLoadConfig" />
+        <property name="serializer" ref="hessianSerializer" />
+        <property name="shardedJedisPool" ref="shardedJedisPool" />
+        <property name="namespace" value="test_hessian" />
+    </bean>
+</beans>

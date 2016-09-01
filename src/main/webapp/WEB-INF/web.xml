@@ -80,6 +80,21 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <!-- 缓存管理页面 start -->
+    <servlet>
+        <servlet-name>cacheadmin</servlet-name>
+        <servlet-class>com.jarvis.cache.admin.servlet.AdminServlet</servlet-class>
+        <init-param>
+            <param-name>cacheManagerNames</param-name>
+            <param-value>cachePointCut</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cacheadmin</servlet-name>
+        <url-pattern>/cacheadmin</url-pattern>
+    </servlet-mapping>
+    <!-- 缓存管理页面 end -->
 
     <welcome-file-list>
         <welcome-file>/admin/</welcome-file>

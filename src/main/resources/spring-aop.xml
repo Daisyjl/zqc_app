@@ -10,5 +10,20 @@
     http://www.springframework.org/schema/aop
     http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
     <!-- 开启自动代理 true 使用CGLib动态代理 -->
+    <import resource="application-redis.xml"></import>
+
     <aop:aspectj-autoproxy proxy-target-class="true" />
+
+    <!-- 缓存的aop配置 start -->
+    <aop:config>
+        <aop:aspect ref="cachePointCut">
+            <aop:pointcut id="daoCachePointcut" expression="execution(public !void com.leoman..*.*(..)) &amp;&amp; @annotation(cache)" />
+            <aop:around pointcut-ref="daoCachePointcut" method="proceed" />
+        </aop:aspect>
+        <aop:aspect ref="cachePointCut" order="1000"><!-- order 参数控制 aop通知的优先级，值越小，优先级越高 ，在事务提交后删除缓存 -->
+            <aop:pointcut id="deleteCachePointcut" expression="execution(* com.leoman..*.*(..)) &amp;&amp; @annotation(cacheDelete)" />
+            <aop:after-returning pointcut-ref="deleteCachePointcut" method="deleteCache" returning="retVal"/>
+        </aop:aspect>
+    </aop:config>
+    <!-- 缓存的aop配置 end -->
 </beans>

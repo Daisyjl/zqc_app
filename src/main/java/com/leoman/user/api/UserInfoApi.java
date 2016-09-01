@@ -49,8 +49,8 @@ public class UserInfoApi extends CommonController{
     private static final String REG_CODE_PREFIX = "REG_CODE_";
     private static final String FIND_PASSWORD_CODE_PREFIX = "FIND_PASSWORD_CODE_";
 
-    @Resource(name = "commonStringCache")
-    private CommonStringCache commonStringCache;//缓存
+    /*@Resource(name = "commonStringCache")
+    private CommonStringCache commonStringCache;//缓存*/
 
     @Autowired
     private UserLoginService userLoginService;//用户登录
@@ -156,11 +156,11 @@ public class UserInfoApi extends CommonController{
                          @RequestParam(required = true) String password,
                          @RequestParam(required = true) String code) throws Exception {
 
-        String cacheCode =  commonStringCache.get(REG_CODE_PREFIX+ userInfo.getMobile());
+        /*String cacheCode =  commonStringCache.get(REG_CODE_PREFIX+ userInfo.getMobile());
         if(StringUtils.isBlank(cacheCode)||!cacheCode.equals(code)){
             WebUtil.printJson(response,new Result(ErrorType.ERROR_CODE_2002));//验证码错误
             return;
-        }
+        }*/
 
         UserInfo user = userInfoService.findOne(new UserInfo(userInfo.getMobile()));
         if(user != null){
@@ -384,7 +384,7 @@ public class UserInfoApi extends CommonController{
             logger.info("--------------------->"+code);
             //发送短信
             sendSms(mobile,code);
-            commonStringCache.put(cacheFlag + mobile, code,10*60);
+//            commonStringCache.put(cacheFlag + mobile, code,10*60);
             WebUtil.printJson(response,new Result().success(createMap("code",code)));
 
         } catch (Exception e) {
@@ -408,11 +408,11 @@ public class UserInfoApi extends CommonController{
                                    @RequestParam(required=true) String code){
 
         try {
-            String cacheCode =  commonStringCache.get(FIND_PASSWORD_CODE_PREFIX+mobile);
+            /*String cacheCode =  commonStringCache.get(FIND_PASSWORD_CODE_PREFIX+mobile);
             if(StringUtils.isBlank(cacheCode) || !cacheCode.equals(code)){
                 WebUtil.printJson(response,new Result(ErrorType.ERROR_CODE_2002));//验证码错误
                 return;
-            }
+            }*/
             WebUtil.printJson(response,new Result().success());
         } catch (Exception e) {
             e.printStackTrace();

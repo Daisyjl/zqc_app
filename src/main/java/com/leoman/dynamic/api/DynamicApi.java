@@ -1,5 +1,6 @@
 package com.leoman.dynamic.api;
 
+import com.jarvis.cache.CacheUtil;
 import com.leoman.common.controller.common.CommonController;
 import com.leoman.common.core.Configue;
 import com.leoman.common.entity.PageVO;
@@ -115,8 +116,9 @@ public class DynamicApi extends CommonController{
                      @RequestParam(required=true) Integer pageNum,
                      @RequestParam(required=true) Integer pageSize
                      ) throws Exception {
+//        CacheUtil.getDefaultCacheKey()
         Page<Dynamic> page = dynamicService.findAll(pageNum,pageSize);
-        for (Dynamic dynamic:page.getContent()) {
+        /*for (Dynamic dynamic:page.getContent()) {
             dynamic.setIsPraise(false);
             DynamicPraise dp = dynamicPraiseService.findByDynamicIdAndUserId(dynamic.getId(),userId);
             if(dp != null){
@@ -134,7 +136,7 @@ public class DynamicApi extends CommonController{
                     di.setImageUrl(Configue.getUploadUrl()+di.getImageUrl());
                 }
             }
-        }
+        }*/
         WebUtil.printJson(response,new Result().success(new PageVO(page)));
     }
 
