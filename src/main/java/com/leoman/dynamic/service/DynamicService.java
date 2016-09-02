@@ -14,7 +14,7 @@ public interface DynamicService extends GenericManager<Dynamic> {
 
     public Dynamic create(Long userId, String content, MultipartFile vedio, MultipartFile [] images);
 
-    @Cache(expire=600, autoload=true, key="'dynamic_'+#args[0]='_'+#args[1]")
+
     public Page<Dynamic> findAll(Integer pageNum, Integer pageSize);
 
 }

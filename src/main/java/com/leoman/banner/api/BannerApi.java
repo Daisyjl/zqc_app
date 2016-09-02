@@ -1,6 +1,5 @@
 package com.leoman.banner.api;
 
-import com.jarvis.cache.CacheUtil;
 import com.leoman.banner.entity.Banner;
 import com.leoman.banner.service.BannerService;
 import com.leoman.common.controller.common.CommonController;
@@ -29,6 +28,7 @@ public class BannerApi extends CommonController{
 
     @Autowired
     private BannerService bannerService;
+
 
     /**
      * @api {post} /api/banner/list  01、获取banner列表
@@ -61,6 +61,7 @@ public class BannerApi extends CommonController{
                      @RequestParam(required=true) Integer position) throws Exception {
 
         List<Banner> list = bannerService.findByPosition(position);
+
         WebUtil.printJson(response,new Result().success(createMap("list",list)));
     }
 

@@ -14,7 +14,8 @@ import java.util.List;
  */
 public interface BannerDao extends IBaseJpaRepository<Banner> {
 
-    @Cache(expire=600, autoload=true, key="'banner'+#args[0]")
+//    @Cache(expire=600, key="'banner'+#args[0]")
+//    @Cache(expire=600, autoload=true, key="'user_dao_getUserById'+#args[0]", condition="#args[0]>0")
     @Query("select a from Banner a where a.position = ?1")
     public List<Banner> findByPosition(Integer position);
 }

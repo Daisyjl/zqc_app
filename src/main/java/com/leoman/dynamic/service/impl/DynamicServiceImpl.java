@@ -1,5 +1,6 @@
 package com.leoman.dynamic.service.impl;
 
+import com.jarvis.cache.annotation.Cache;
 import com.leoman.common.service.impl.GenericManagerImpl;
 import com.leoman.dynamic.dao.DynamicDao;
 import com.leoman.dynamic.entity.Dynamic;
@@ -51,8 +52,10 @@ public class DynamicServiceImpl extends GenericManagerImpl<Dynamic,DynamicDao> i
     @Autowired
     private UploadImageService uploadImageService;
 
+    @Cache(expire=600, key="'dynamic_'+#args[0]='_'+#args[1]")
     @Override
     public Page<Dynamic> findAll(Integer pageNum, Integer pageSize){
+        System.out.println("--------------find dynamic from service---------------");
         return dynamicDao.findAll(new PageRequest(pageNum-1, pageSize, Sort.Direction.DESC, "isTop","id"));
     }
 

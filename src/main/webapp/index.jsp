@@ -11,6 +11,6 @@
     <title>2</title>
   </head>
   <body>
-2
+<a href="cacheadmin" target="_blank">缓存管理后台</a>
   </body>
 </html>

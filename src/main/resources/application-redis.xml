@@ -18,8 +18,8 @@
         <constructor-arg>
             <list>
                 <bean class="redis.clients.jedis.JedisShardInfo">
-                    <constructor-arg value="${redis.host}" />
-                    <constructor-arg type="int" value="${redis.port}" />
+                    <constructor-arg value="127.0.0.1" />
+                    <constructor-arg type="int" value="6379" />
                     <constructor-arg value="instance:01" />
                 </bean>
                 <!--<bean class="redis.clients.jedis.JedisShardInfo">
@@ -41,11 +41,14 @@
         <property name="maxElement" value="20000" />
         <property name="printSlowLog" value="true" />
         <property name="slowLoadTime" value="500" />
-        <!--<property name="sortType" value="1" />-->
+            <!--<property name="sortType" value="1" />-->
         <property name="checkFromCacheBeforeLoad" value="true" />
     </bean>
 
     <bean id="hessianSerializer" class="com.jarvis.cache.serializer.HessianSerializer" />
+
+    <!--<bean id="fastjsonSerializer" class="com.jarvis.cache.serializer.FastjsonSerializer" />
+    <bean id="scriptParser" class="com.jarvis.cache.script.SpringELParser" />-->
 
     <bean id="cachePointCut" class="com.jarvis.cache.redis.ShardedCachePointCut" destroy-method="destroy">
         <constructor-arg ref="autoLoadConfig" />
@@ -53,4 +56,16 @@
         <property name="shardedJedisPool" ref="shardedJedisPool" />
         <property name="namespace" value="test_hessian" />
     </bean>
+
+    <!--<bean id="cacheManager" class="com.jarvis.cache.map.CachePointCut" init-method="start" destroy-method="destroy">
+        <constructor-arg ref="autoLoadConfig" />
+        <constructor-arg ref="fastjsonSerializer" />
+        <constructor-arg ref="scriptParser" />
+        <property name="unpersistMaxSize" value="0" />
+    </bean>
+
+    <bean id="cacheInterceptor" class="com.jarvis.cache.aop.aspectj.AspectjAopInterceptor">
+        <property name="cacheManager" ref="cacheManager" />
+    </bean>-->
+
 </beans>

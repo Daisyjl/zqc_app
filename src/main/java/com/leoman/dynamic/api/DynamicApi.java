@@ -116,7 +116,6 @@ public class DynamicApi extends CommonController{
                      @RequestParam(required=true) Integer pageNum,
                      @RequestParam(required=true) Integer pageSize
                      ) throws Exception {
-//        CacheUtil.getDefaultCacheKey()
         Page<Dynamic> page = dynamicService.findAll(pageNum,pageSize);
         /*for (Dynamic dynamic:page.getContent()) {
             dynamic.setIsPraise(false);
